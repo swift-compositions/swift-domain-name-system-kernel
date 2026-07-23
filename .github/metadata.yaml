@@ -1,9 +1,9 @@
 # .github/metadata.yaml
-description: "System DNS provider binding the resolver capability to the unified Kernel host resolution surface."
+description: "System DNS provider for swift-domain-name-system."
 topics:
   - foundations
   - dns
-  - posix
+  - kernel
 homepage: "https://swift-institute.org"
 readme:
   family: E
