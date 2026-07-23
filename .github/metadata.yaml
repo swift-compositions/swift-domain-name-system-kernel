@@ -1,0 +1,9 @@
+# .github/metadata.yaml
+description: "System DNS provider binding the resolver capability to typed ISO 9945 host resolution."
+topics:
+  - foundations
+  - dns
+  - posix
+homepage: "https://swift-institute.org"
+readme:
+  family: E
