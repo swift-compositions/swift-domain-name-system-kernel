@@ -1,5 +1,5 @@
 # .github/metadata.yaml
-description: "System DNS provider binding the resolver capability to typed ISO 9945 host resolution."
+description: "System DNS provider binding the resolver capability to the unified Kernel host resolution surface."
 topics:
   - foundations
   - dns

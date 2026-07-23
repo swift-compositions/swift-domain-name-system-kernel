@@ -1,8 +1,8 @@
 // ===----------------------------------------------------------------------===//
 //
-// This source file is part of the swift-domain-name-system-iso-9945 open source project
+// This source file is part of the swift-domain-name-system-kernel open source project
 //
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-iso-9945 project authors
+// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-kernel project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE for license information
@@ -11,7 +11,7 @@
 
 public import Domain_Name_System
 internal import Either_Primitives
-public import ISO_9945_Kernel_Socket_Address
+public import Kernel
 internal import Thread_Pool
 
 extension DNS.Resolver.System {
@@ -35,7 +35,7 @@ extension DNS.Resolver.System {
         case shutdown
 
         /// The system resolver failed with the typed `EAI_*` error.
-        case resolution(ISO_9945.Kernel.Socket.Address.Info.Error)
+        case resolution(Kernel.Socket.Address.Info.Error)
     }
 }
 
@@ -44,7 +44,7 @@ extension DNS.Resolver.System {
 extension DNS.Resolver.System.Error {
     /// Maps the pool-or-resolution failure onto this domain.
     internal init(
-        from error: Either<Kernel.Thread.Pool.Error, ISO_9945.Kernel.Socket.Address.Info.Error>
+        from error: Either<Kernel.Thread.Pool.Error, Kernel.Socket.Address.Info.Error>
     ) {
         switch error {
         case .left(let pool):

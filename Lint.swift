@@ -1,9 +1,9 @@
 // swift-linter-tools-version: 0.1
 // ===----------------------------------------------------------------------===//
 //
-// This source file is part of the swift-domain-name-system-iso-9945 open source project
+// This source file is part of the swift-domain-name-system-kernel open source project
 //
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-iso-9945 project authors
+// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-kernel project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE for license information

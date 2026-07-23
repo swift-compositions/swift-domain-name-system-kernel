@@ -1,8 +1,8 @@
 // ===----------------------------------------------------------------------===//
 //
-// This source file is part of the swift-domain-name-system-iso-9945 open source project
+// This source file is part of the swift-domain-name-system-kernel open source project
 //
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-iso-9945 project authors
+// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-kernel project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE for license information
@@ -11,14 +11,14 @@
 
 public import Domain_Name_System
 internal import Either_Primitives
-public import ISO_9945_Kernel_Socket_Address
+public import Kernel
 public import Thread_Pool
 
 extension DNS.Resolver {
     /// The system resolver: typed POSIX host resolution on a shared bounded
     /// worker pool.
     ///
-    /// Resolution runs `getaddrinfo` through the typed ISO 9945 surface, so
+    /// Resolution runs `getaddrinfo` through the unified `Kernel` surface, so
     /// the platform's complete policy applies — `/etc/hosts`, NSS, search
     /// domains, split DNS, and enterprise configuration. No public resolver
     /// is hard-coded, no time-to-live is invented, and results keep the
@@ -62,10 +62,10 @@ extension DNS.Resolver.System: DNS.Resolving {
     public func resolve(_ query: DNS.Query) async throws(Error) -> [IP.Address] {
         let host = query.name.description
         let hints = Self.hints(for: query.family)
-        do throws(Either<Kernel.Thread.Pool.Error, ISO_9945.Kernel.Socket.Address.Info.Error>) {
+        do throws(Either<Kernel.Thread.Pool.Error, Kernel.Socket.Address.Info.Error>) {
             return try await pool.run(timeout: query.timeout) {
-                () throws(ISO_9945.Kernel.Socket.Address.Info.Error) -> [IP.Address] in
-                let list = try ISO_9945.Kernel.Socket.Address.Info.List.get(host: host, hints: hints)
+                () throws(Kernel.Socket.Address.Info.Error) -> [IP.Address] in
+                let list = try Kernel.Socket.Address.Info.List.get(host: host, hints: hints)
                 return Self.addresses(of: list.entries)
             }
         } catch {
@@ -83,7 +83,7 @@ extension DNS.Resolver.System {
     /// `getaddrinfo` would otherwise return, without reordering addresses.
     private static func hints(
         for family: DNS.Query.Family
-    ) -> ISO_9945.Kernel.Socket.Address.Info.Hints {
+    ) -> Kernel.Socket.Address.Info.Hints {
         .init(
             family: Self.family(for: family),
             kind: .stream
@@ -93,7 +93,7 @@ extension DNS.Resolver.System {
     /// Maps the provider-neutral family preference onto the typed constant.
     private static func family(
         for family: DNS.Query.Family
-    ) -> ISO_9945.Kernel.Socket.Address.Family {
+    ) -> Kernel.Socket.Address.Family {
         switch family {
         case .any: .unspecified
         case .v4: .inet
@@ -103,7 +103,7 @@ extension DNS.Resolver.System {
 
     /// Converts owned entries into canonical addresses, preserving order.
     private static func addresses(
-        of entries: [ISO_9945.Kernel.Socket.Address.Info]
+        of entries: [Kernel.Socket.Address.Info]
     ) -> [IP.Address] {
         entries.compactMap { entry in
             if let v4 = entry.address.ipv4 {

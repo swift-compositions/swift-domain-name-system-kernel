@@ -1,8 +1,8 @@
 // ===----------------------------------------------------------------------===//
 //
-// This source file is part of the swift-domain-name-system-iso-9945 open source project
+// This source file is part of the swift-domain-name-system-kernel open source project
 //
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-iso-9945 project authors
+// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-kernel project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE for license information
@@ -12,7 +12,7 @@
 import Testing
 import Thread_Gate
 
-@testable import Domain_Name_System_ISO_9945
+@testable import Domain_Name_System_Kernel
 
 @Suite
 struct `System Resolver Tests` {
@@ -72,8 +72,8 @@ extension `System Resolver Tests`.Integration {
         let resolver = DNS.Resolver.System()
         let adapted = try await resolver.resolve(DNS.Query(name: name, family: .any))
 
-        do throws(ISO_9945.Kernel.Socket.Address.Info.Error) {
-            let direct = try ISO_9945.Kernel.Socket.Address.Info.List.get(
+        do throws(Kernel.Socket.Address.Info.Error) {
+            let direct = try Kernel.Socket.Address.Info.List.get(
                 host: "localhost",
                 hints: .init(family: .unspecified, kind: .stream)
             ).entries.compactMap { entry -> IP.Address? in

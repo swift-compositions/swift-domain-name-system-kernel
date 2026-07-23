@@ -1,17 +1,18 @@
-# ``Domain_Name_System_ISO_9945``
+# ``Domain_Name_System_Kernel``
 
 @Metadata {
-    @DisplayName("Domain Name System ISO 9945")
+    @DisplayName("Domain Name System Kernel")
     @TitleHeading("Swift Foundations")
 }
 
-The system DNS provider: typed POSIX host resolution bound to the
-provider-neutral `DNS.Resolving` seam.
+The system DNS provider: typed host resolution through the unified `Kernel`
+surface, bound to the provider-neutral `DNS.Resolving` seam.
 
 ## Overview
 
-`DNS.Resolver.System` answers a `DNS.Query` by running the typed ISO 9945
-`getaddrinfo` surface on an externally owned, bounded `Kernel.Thread.Pool`.
+`DNS.Resolver.System` answers a `DNS.Query` by running the typed
+`Kernel.Socket.Address.Info` `getaddrinfo` surface on an externally owned,
+bounded `Kernel.Thread.Pool`.
 The platform's complete resolution policy applies — `/etc/hosts`, NSS, search
 domains, split DNS, and enterprise configuration — and results keep the
 system resolver's order with no invented time-to-live.
