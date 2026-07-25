@@ -48,7 +48,12 @@ dependencies: [
 Then add the product to your target:
 
 ```swift
-.product(name: "Domain Name System Kernel", package: "swift-domain-name-system-kernel")
+.target(
+    name: "YourTarget",
+    dependencies: [
+        .product(name: "Domain Name System Kernel", package: "swift-domain-name-system-kernel")
+    ]
+)
 ```
 
 ## Scope
