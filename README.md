@@ -60,6 +60,40 @@ Then add the product to your target:
 
 This package is the system adapter only. The provider-neutral resolver seam lives in [swift-domain-name-system](https://github.com/swift-foundations/swift-domain-name-system); DNS wire records and message law live with RFC 1035. No wire resolver, cache, or TTL policy is implemented here.
 
+## Error Handling
+
+`DNS.Resolver.System.resolve(_:)` throws a typed `DNS.Resolver.System.Error`.
+The pool-lifecycle cases report that delivery was abandoned or refused — never
+that the OS call itself was interrupted:
+
+```
+DNS.Resolver.System.Error
+├── .capacity                                   // bounded pool refused admission
+├── .cancelled                                  // request cancelled, delivery abandoned
+├── .timeout                                    // monotonic budget expired
+├── .shutdown                                   // pool shut down by its owner
+└── .resolution(Kernel.Socket.Address.Info.Error)  // typed EAI_* resolver failure
+```
+
+```swift
+do {
+    let addresses = try await resolver.resolve(query)
+    _ = addresses
+} catch .capacity {
+    // back off; the admission queue is full
+} catch .cancelled {
+    // caller cancelled
+} catch .timeout {
+    // exceeded the query's budget
+} catch .shutdown {
+    // the injected pool was shut down
+} catch .resolution(let eai) {
+    _ = eai
+}
+```
+
+---
+
 ## License
 
 Apache License v2.0 — see [LICENSE](LICENSE.md).
