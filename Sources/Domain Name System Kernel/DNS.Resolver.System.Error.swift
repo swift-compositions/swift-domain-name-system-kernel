@@ -54,6 +54,7 @@ extension DNS.Resolver.System.Error {
             case .timeout: self = .timeout
             case .shutdown: self = .shutdown
             }
+
         case .right(let resolution):
             self = .resolution(resolution)
         }

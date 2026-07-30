@@ -113,8 +113,14 @@ extension DNS.Resolver.System {
                 let segments = v6.segments
                 return .v6(
                     IPv6.Address(
-                        segments.0, segments.1, segments.2, segments.3,
-                        segments.4, segments.5, segments.6, segments.7
+                        segments.0,
+                        segments.1,
+                        segments.2,
+                        segments.3,
+                        segments.4,
+                        segments.5,
+                        segments.6,
+                        segments.7
                     )
                 )
             }

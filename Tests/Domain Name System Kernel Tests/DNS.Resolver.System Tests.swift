@@ -84,8 +84,14 @@ extension `System Resolver Tests`.Integration {
                     let segments = v6.segments
                     return .v6(
                         IPv6.Address(
-                            segments.0, segments.1, segments.2, segments.3,
-                            segments.4, segments.5, segments.6, segments.7
+                            segments.0,
+                            segments.1,
+                            segments.2,
+                            segments.3,
+                            segments.4,
+                            segments.5,
+                            segments.6,
+                            segments.7
                         )
                     )
                 }
@@ -183,6 +189,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
         switch await waiter.result {
         case .success:
             Issue.record("Expected cancellation of the queued request")
+
         case .failure(let error):
             #expect(error as? DNS.Resolver.System.Error == .cancelled)
         }
@@ -213,6 +220,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
         switch await waiter.result {
         case .success:
             ()
+
         case .failure(let error):
             #expect(error as? DNS.Resolver.System.Error == .cancelled)
         }
