@@ -23,7 +23,9 @@ struct `System Resolver Tests` {
 
 extension `System Resolver Tests`.Integration {
     @Test
-    func `v4 preference resolves localhost to ordered IPv4 loopback`() async throws(DNS.Resolver.System.Error) {
+    func `v4 preference resolves localhost to ordered IPv4 loopback`() async throws(DNS.Resolver
+        .System.Error)
+    {
         guard let name = `System Resolver Tests`.valid("localhost") else { return }
         let resolver = DNS.Resolver.System()
         let answers = try await resolver.resolve(DNS.Query(name: name, family: .v4))
@@ -39,7 +41,9 @@ extension `System Resolver Tests`.Integration {
     }
 
     @Test
-    func `v6 preference resolves localhost to ordered IPv6 loopback`() async throws(DNS.Resolver.System.Error) {
+    func `v6 preference resolves localhost to ordered IPv6 loopback`() async throws(DNS.Resolver
+        .System.Error)
+    {
         guard let name = `System Resolver Tests`.valid("localhost") else { return }
         let resolver = DNS.Resolver.System()
         let answers = try await resolver.resolve(DNS.Query(name: name, family: .v6))
@@ -55,7 +59,9 @@ extension `System Resolver Tests`.Integration {
     }
 
     @Test
-    func `hosts seam resolution is deterministic across repetition`() async throws(DNS.Resolver.System.Error) {
+    func `hosts seam resolution is deterministic across repetition`() async throws(DNS.Resolver
+        .System.Error)
+    {
         guard let name = `System Resolver Tests`.valid("localhost") else { return }
         let resolver = DNS.Resolver.System()
         let query = DNS.Query(name: name, family: .v4)
@@ -67,7 +73,9 @@ extension `System Resolver Tests`.Integration {
     }
 
     @Test
-    func `system order is preserved against the direct typed surface`() async throws(DNS.Resolver.System.Error) {
+    func `system order is preserved against the direct typed surface`() async throws(DNS.Resolver
+        .System.Error)
+    {
         guard let name = `System Resolver Tests`.valid("localhost") else { return }
         let resolver = DNS.Resolver.System()
         let adapted = try await resolver.resolve(DNS.Query(name: name, family: .any))
