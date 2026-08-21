@@ -1,14 +1,3 @@
-// ===----------------------------------------------------------------------===//
-//
-// This source file is part of the swift-domain-name-system-kernel open source project
-//
-// Copyright (c) 2026 Coen ten Thije Boonkkamp and the swift-domain-name-system-kernel project authors
-// Licensed under Apache License v2.0
-//
-// See LICENSE for license information
-//
-// ===----------------------------------------------------------------------===//
-
 import Testing
 import Thread_Gate
 
@@ -132,7 +121,7 @@ extension `System Resolver Tests`.`Edge Case` {
 }
 
 extension `System Resolver Tests` {
-    /// Returns a validated domain, recording an issue on failure.
+
     static func valid(_ name: Swift.String) -> RFC_1035.Domain? {
         do throws(RFC_1035.Domain.Error) {
             return try RFC_1035.Domain(name)
@@ -151,10 +140,7 @@ struct `System Resolver Lifecycle Tests` {
 }
 
 extension `System Resolver Lifecycle Tests` {
-    /// Occupies every admission slot of `pool` until the gate opens.
-    ///
-    /// Returns the task that owns the blocking occupant so callers can await
-    /// full drain after opening the gate.
+
     static func occupy(
         _ pool: Kernel.Thread.Pool,
         until gate: Kernel.Thread.Gate
@@ -168,8 +154,6 @@ extension `System Resolver Lifecycle Tests` {
         }
     }
 
-    /// Yields until the occupant has actually been admitted, so a subsequent
-    /// reservation deterministically sees a full pool.
     static func settle() async {
         for _ in 0..<64 { await Task.yield() }
     }
@@ -223,8 +207,6 @@ extension `System Resolver Lifecycle Tests`.Integration {
         }
         waiter.cancel()
 
-        // Either outcome is legal — completion may have won the race — but
-        // the logical request must resume promptly either way.
         switch await waiter.result {
         case .success:
             ()
@@ -251,13 +233,10 @@ extension `System Resolver Lifecycle Tests`.Integration {
                 try await resolver.resolve(query)
             }
             waiter.cancel()
-            // Abandonment is the expected path; success means the resolution
-            // won the race. Both are legal here.
+
             _ = await waiter.result
         }
 
-        // Shutdown drains every admitted worker; each worker owned and freed
-        // its addrinfo chain regardless of the abandoned logical requests.
         pool.shutdown()
     }
 
