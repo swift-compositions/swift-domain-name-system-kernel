@@ -154,6 +154,13 @@ extension `System Resolver Lifecycle Tests` {
         }
     }
 
+    static func resolve(
+        _ query: DNS.Query,
+        with resolver: DNS.Resolver.System
+    ) async throws(DNS.Resolver.System.Error) -> [IP.Address] {
+        try await resolver.resolve(query)
+    }
+
     static func settle() async {
         for _ in 0..<64 { await Task.yield() }
     }
@@ -172,8 +179,8 @@ extension `System Resolver Lifecycle Tests`.Integration {
 
         let resolver = DNS.Resolver.System(pool: pool)
         let query = DNS.Query(name: name, family: .v4)
-        let waiter = Task { () throws(DNS.Resolver.System.Error) -> [IP.Address] in
-            try await resolver.resolve(query)
+        let waiter = Task {
+            try await `System Resolver Lifecycle Tests`.resolve(query, with: resolver)
         }
         await `System Resolver Lifecycle Tests`.settle()
         waiter.cancel()
@@ -202,8 +209,8 @@ extension `System Resolver Lifecycle Tests`.Integration {
 
         let clock = ContinuousClock()
         let started = clock.now
-        let waiter = Task { () throws(DNS.Resolver.System.Error) -> [IP.Address] in
-            try await resolver.resolve(query)
+        let waiter = Task {
+            try await `System Resolver Lifecycle Tests`.resolve(query, with: resolver)
         }
         waiter.cancel()
 
@@ -229,8 +236,8 @@ extension `System Resolver Lifecycle Tests`.Integration {
         let query = DNS.Query(name: name, family: .any)
 
         for _ in 0..<16 {
-            let waiter = Task { () throws(DNS.Resolver.System.Error) -> [IP.Address] in
-                try await resolver.resolve(query)
+            let waiter = Task {
+                try await `System Resolver Lifecycle Tests`.resolve(query, with: resolver)
             }
             waiter.cancel()
 
