@@ -19,14 +19,14 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-foundations/swift-domain-name-system.git",
+            url: "https://github.com/swift-compositions/swift-domain-name-system.git",
             branch: "main"
         ),
-        .package(url: "https://github.com/swift-foundations/swift-ip-address.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-threads.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-kernel.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-ip-address.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-threads.git", branch: "main"),
+        .package(url: "https://github.com/swift-compositions/swift-kernel.git", branch: "main"),
         .package(
-            url: "https://github.com/swift-primitives/swift-either-primitives.git",
+            url: "https://github.com/swift-molecules/swift-either.git",
             branch: "main"
         ),
     ],
@@ -38,7 +38,7 @@ let package = Package(
                 .product(name: "IP Address", package: "swift-ip-address"),
                 .product(name: "Thread Pool", package: "swift-threads"),
                 .product(name: "Kernel", package: "swift-kernel"),
-                .product(name: "Either Primitives", package: "swift-either-primitives"),
+                .product(name: "Either", package: "swift-either"),
             ]
         ),
         .testTarget(

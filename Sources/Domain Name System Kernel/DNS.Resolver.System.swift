@@ -1,5 +1,5 @@
 public import Domain_Name_System
-internal import Either_Primitives
+internal import Either
 public import Kernel
 public import Thread_Pool
 

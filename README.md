@@ -41,7 +41,7 @@ let resolver = DNS.Resolver.System(pool: pool)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-foundations/swift-domain-name-system-kernel.git", branch: "main")
+    .package(url: "https://github.com/swift-compositions/swift-domain-name-system-kernel.git", branch: "main")
 ]
 ```
 
@@ -58,7 +58,7 @@ Then add the product to your target:
 
 ## Scope
 
-This package is the system adapter only. The provider-neutral resolver seam lives in [swift-domain-name-system](https://github.com/swift-foundations/swift-domain-name-system); DNS wire records and message law live with RFC 1035. No wire resolver, cache, or TTL policy is implemented here.
+This package is the system adapter only. The provider-neutral resolver seam lives in [swift-domain-name-system](https://github.com/swift-compositions/swift-domain-name-system); DNS wire records and message law live with RFC 1035. No wire resolver, cache, or TTL policy is implemented here.
 
 ## Error Handling
 

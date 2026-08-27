@@ -1,7 +1,7 @@
 # .github/metadata.yaml
 description: "System DNS provider for swift-domain-name-system."
 topics:
-  - foundations
+  - compositions
   - dns
   - kernel
 homepage: "https://swift-institute.org"
