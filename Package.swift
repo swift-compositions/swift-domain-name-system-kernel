@@ -25,10 +25,7 @@ let package = Package(
         .package(url: "https://github.com/swift-compositions/swift-ip-address.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-threads.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-kernel.git", branch: "main"),
-        .package(
-            url: "https://github.com/swift-molecules/swift-either.git",
-            branch: "main"
-        ),
+        .package(url: "https://github.com/swift-atoms/swift-either.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -45,7 +42,11 @@ let package = Package(
             name: "Domain Name System Kernel Tests",
             dependencies: [
                 "Domain Name System Kernel",
+                .product(name: "Domain Name System", package: "swift-domain-name-system"),
+                .product(name: "IP Address", package: "swift-ip-address"),
+                .product(name: "Kernel", package: "swift-kernel"),
                 .product(name: "Thread Gate", package: "swift-threads"),
+                .product(name: "Thread Pool", package: "swift-threads"),
             ]
         ),
     ],
