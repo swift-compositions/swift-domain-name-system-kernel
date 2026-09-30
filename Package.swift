@@ -26,11 +26,13 @@ let package = Package(
         .package(url: "https://github.com/swift-compositions/swift-threads.git", branch: "main"),
         .package(url: "https://github.com/swift-compositions/swift-kernel.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-either.git", branch: "main"),
+        .package(url: "https://github.com/swift-ietf/swift-rfc-1035.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "Domain Name System Kernel",
             dependencies: [
+                .product(name: "RFC 1035", package: "swift-rfc-1035"),
                 .product(name: "Domain Name System", package: "swift-domain-name-system"),
                 .product(name: "IP Address", package: "swift-ip-address"),
                 .product(name: "Thread Pool", package: "swift-threads"),
@@ -41,6 +43,7 @@ let package = Package(
         .testTarget(
             name: "Domain Name System Kernel Tests",
             dependencies: [
+                .product(name: "RFC 1035", package: "swift-rfc-1035"),
                 "Domain Name System Kernel",
                 .product(name: "Domain Name System", package: "swift-domain-name-system"),
                 .product(name: "IP Address", package: "swift-ip-address"),

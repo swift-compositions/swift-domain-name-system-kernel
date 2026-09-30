@@ -3,6 +3,7 @@ internal import Either
 public import IP_Address
 public import Kernel
 public import Thread_Pool
+internal import RFC_1035
 
 extension DNS.Resolver {
 
@@ -16,7 +17,7 @@ extension DNS.Resolver {
     }
 }
 
-extension DNS.Resolver.System: DNS.Resolving {
+extension DNS.Resolver.System: DNS.Resolver.`Protocol` {
 
     public func resolve(_ query: DNS.Query) async throws(Error) -> [IP.Address] {
         let host = query.name.description

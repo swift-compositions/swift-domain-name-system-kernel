@@ -5,6 +5,7 @@ import Kernel
 import Testing
 import Thread_Gate
 import Thread_Pool
+import RFC_1035
 
 @Suite
 struct `System Resolver Tests` {
@@ -148,17 +149,21 @@ extension `System Resolver Lifecycle Tests`.Integration {
 
         let resolver = DNS.Resolver.System(pool: pool)
         let query = DNS.Query(name: name, family: .v4)
-        let waiter = Task { () async throws(DNS.Resolver.System.Error) -> [IP.Address] in
+        let waiter = Task { () async throws -> [IP.Address] in
             try await resolver.resolve(query)
         }
         waiter.cancel()
 
         let outcome = await waiter.result
-        #expect(outcome == .failure(.cancelled))
+        if case .failure(let error) = outcome {
+            #expect(error as? DNS.Resolver.System.Error == .cancelled)
+        } else {
+            Issue.record("Expected the cancelled resolution to fail")
+        }
 
         release.open()
         let occupancy = await occupant.result
-        #expect(occupancy == .success(true))
+        #expect((try? occupancy.get()) == true)
         pool.shutdown()
     }
 
@@ -173,7 +178,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
 
         let clock = ContinuousClock()
         let started = clock.now
-        let waiter = Task { () async throws(DNS.Resolver.System.Error) -> [IP.Address] in
+        let waiter = Task { () async throws -> [IP.Address] in
             try await resolver.resolve(query)
         }
         waiter.cancel()
@@ -183,7 +188,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
             ()
 
         case .failure(let error):
-            #expect(error == .cancelled)
+            #expect(error as? DNS.Resolver.System.Error == .cancelled)
         }
         #expect(clock.now - started < .seconds(10))
 
@@ -200,7 +205,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
         let query = DNS.Query(name: name)
 
         for _ in 0..<16 {
-            let waiter = Task { () async throws(DNS.Resolver.System.Error) -> [IP.Address] in
+            let waiter = Task { () async throws -> [IP.Address] in
                 try await resolver.resolve(query)
             }
             waiter.cancel()
@@ -239,7 +244,7 @@ extension `System Resolver Lifecycle Tests`.Integration {
 
         release.open()
         let occupancy = await occupant.result
-        #expect(occupancy == .success(true))
+        #expect((try? occupancy.get()) == true)
         pool.shutdown()
     }
 
