@@ -2,10 +2,10 @@ import Domain_Name_System
 import Domain_Name_System_Kernel
 import IP_Address
 import Kernel
+import RFC_1035
 import Testing
 import Thread_Gate
 import Thread_Pool
-import RFC_1035
 
 @Suite
 struct `System Resolver Tests` {

@@ -2,8 +2,8 @@ public import Domain_Name_System
 internal import Either
 public import IP_Address
 public import Kernel
-public import Thread_Pool
 internal import RFC_1035
+public import Thread_Pool
 
 extension DNS.Resolver {
 
